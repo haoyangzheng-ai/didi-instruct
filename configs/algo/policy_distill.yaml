@@ -1,0 +1,57 @@
+# On-policy distillation on top of MDLM (SUBS)
+# Configuration for the OnPolicyDistillation class, inspired by DiMO.
+name: policy_distill
+
+# ---- must match the trained MDLM (teacher/student/aux must be identical) ----
+backbone: dit                  # dit / dimamba / hf_dit
+parameterization: subs
+time_conditioning: False
+subs_masking: False
+causal_attention: False
+ignore_bos: False
+
+gumbel_tau_log10_start: -1
+gumbel_tau_log10_end: -1
+curriculum_start: -1
+curriculum_end: -1
+
+# Continuous-time (same regime as MDLM)
+T: 0                           # 0 = continuous time
+
+# ---- On-Policy Distillation (DiMO-style) knobs ----
+loss_type: 'Jeffreys'          # Divergence for surrogate grad: 'FKL', 'RKL', 'Jeffreys'
+jeffreys_beta: 0.5             # Beta for Jeffrey's divergence (0=FKL, 1=RKL)
+loss_reduction: 'mean'         # 'mean' or 'sum' for the student's surrogate loss
+student_update_freq: 1         # Update student every N steps (enables alternating updates if > 1)
+alpha_aux_soft_target: 0.0     # Weight for soft KL-div loss for auxiliary model (0.0 = only hard cross-entropy)
+aux_temp: 1.0                  # Temperature for the auxiliary model's soft KL-div loss calculation
+gradient_clip_val: 1.0         # Gradient clipping value for auxiliary model (0.0 = disabled)
+
+# ---- Token Initialization Strategy knobs ----
+initial_mask_ratio: 0.5        # r_init: ratio of [MASK] tokens in the initial sequence
+noise_emb_perturb: 0.1         # sigma_init: strength of Gaussian noise on initial token embeddings
+ratio_mode: 'arccos'           # Masking schedule for creating pseudo-intermediate states
+
+# ---- Student Generation Sampling knobs ----
+student_gen_temp: 1.0          # Temperature for student's one-step generation sampling
+student_top_k: 0               # Top-k filtering for student's sampling (0 = disabled)
+student_top_p: 0.0             # Top-p (nucleus) filtering for student's sampling (0.0 = disabled)
+
+# ---- General settings ----
+teacher_ema: false             # Whether to use EMA weights for the teacher (not used by default in this implementation)
+print_para: false
+output_dir: "/scratch/gautschi/zheng528/duo/outputs"
+print_every: 0
+save_after_n_steps: 1000
+
+# ---- placeholders kept for template parity (not used by this algo) ----
+integral_cache_path: ${hydra:runtime.cwd}/integral/${data.tokenizer_name_or_path}.pkl
+posterior_loss_weight: 0.0
+
+# auxiliary model optimizer settings
+aux_lr: 5e-5
+aux_optim:
+  weight_decay: 0
+  beta1: 0.9
+  beta2: 0.999
+  eps: 1e-8
