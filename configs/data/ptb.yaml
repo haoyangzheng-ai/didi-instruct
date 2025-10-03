@@ -1,8 +1,8 @@
-train: HuggingFaceFW/fineweb-edu
-valid: openwebtext-valid  #wikitext103
+train: ptb
+valid: ptb
 tokenizer_name_or_path: gpt2
 cache_dir: /scratch/gautschi/zheng528/data/
 wrap: True
-streaming: True
+streaming: False
 insert_train_eos: True
 insert_valid_eos: True

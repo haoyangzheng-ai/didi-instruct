@@ -1,136 +1,131 @@
-# Discrete Diffusion LLM Distillation Methods 
+# Ultra-Fast Language Generation via <br>Discrete Diffusion Divergence Instruct (DiDi-Instruct)
 
-This repository is an extension and reproduction of several recent and representative methods for distilling Large Language Models (LLMs) using **discrete diffusion frameworks**. 
+[![arXiv](https://img.shields.io/badge/arXiv-2509.25035-b31b1b?logo=arxiv&logoColor=white)](https://arxiv.org/abs/2509.25035)
+[![Checkpoints](https://img.shields.io/badge/Model%20Checkpoints-Drive-blue?logo=google-drive&logoColor=white)](https://drive.google.com/drive/folders/1bQlwZoaowkGy3FXnrtb4YEleKIDHrQNE?usp=sharing)
+[![Python](https://img.shields.io/badge/Python-3.12.11-yellow)](https://github.com/haoyangzheng-ai/didi-instruct/blob/main/environment.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE.md)
 
-### `environment.yml`
+By [Haoyang Zheng](https://scholar.google.com/citations?hl=en&user=cq_f7MUAAAAJ&view_op=list_works&sortby=pubdate), [Xinyang Liu](https://xinyangatk.github.io/), [Cindy Xiangrui Kong](https://xiangruikong.com/), [Nan Jiang](https://jiangnanhugo.github.io/), [Zheyuan Hu](https://scholar.google.com/citations?user=On2YFigAAAAJ&hl=zh-CN),
+[Weijian Luo](https://pkulwj1994.github.io/), [Wei Deng](https://www.weideng.org/), and [Guang Lin](https://www.math.purdue.edu/~lin491/)
 
-```yaml
-name: duo
-channels:
-  - nvidia/label/cuda-12.4.0
-  - conda-forge
-dependencies:
-  - python=3.12.11
-  - pip
-  - cuda-toolkit=12.4.0
-  - pip:
-    - transformers==4.38.2
-    - datasets==2.15.0
-    - torch==2.3.1
-    - torchvision==0.18.1
-    - torchaudio==2.3.1
-    - flash-attn==2.7.4.post1
-    - einops==0.7.0
-    - wandb==0.21.0
-    - tqdm==4.67.1
-    - lightning==2.2.1
-    - triton==2.2.0
+---
+
+## 🔄 Updates
+
+* **2025-10-03**: We updated the [evaluation code](https://github.com/haoyangzheng-ai/didi-instruct/blob/main/scripts/eval-didi-instruct.sh) and released [the model checkpoint](https://drive.google.com/drive/folders/1bQlwZoaowkGy3FXnrtb4YEleKIDHrQNE?usp=sharing).
+* **2025-09-29**: We uploaded our work to [arXiv](https://arxiv.org/abs/2509.25035).
+
+### Planned Releases
+
+* Project page.
+* Training code for reproduction and further research.
+
+---
+
+## Abstract
+
+Fast and high-quality language generation is the holy grail that people pursue in the age of AI. In this work, we introduce **Di**screte **Di**ffusion Divergence **Instruct** (**DiDi-Instruct**), a training-based method that initializes from a pre-trained (masked) discrete diffusion language model (dLLM) and distills a few-step student for fast generation. The resulting DiDi-Instruct model achieves comparable or superior performance to its dLLM teacher and the GPT-2 baseline while enabling up to **64×** acceleration. The theoretical foundation of DiDi-Instruct is a novel framework based on integral KL-divergence minimization, which yields a practical training algorithm. We further introduce grouped reward normalization, intermediate-state matching, and the reward-guided ancestral sampler that significantly improve training stability, model coverage, and inference quality. On OpenWebText, DiDi-Instruct achieves perplexity from 62.2 (8 NFEs) to 18.4 (128 NFEs), which outperforms prior accelerated dLLMs and GPT-2 baseline. These gains come with a negligible entropy loss (around 1\%) and reduce additional training wall-clock time by more than **20×** compared to competing dLLM distillation methods. We further validate the robustness and effectiveness of DiDi-Instruct through extensive ablation studies, model scaling, and the generation of discrete protein sequences. In conclusion, DiDi-Instruct is an efficient yet effective distillation method, enabling language generation in the blink of an eye.
+
+---
+
+## 🚀 Generation Speed
+
+### Auto-Regressive Model (GPT-2 Small)
+Token-by-token generation → high latency.
+![ARM](https://github.com/haoyangzheng-ai/didi-instruct/blob/main/demos/arm.gif)
+
+### Masked Diffusion Model (MDLM, 169M)
+Iterative denoising → latency comparable to GPT-2 Small.
+![MDLM](https://github.com/haoyangzheng-ai/didi-instruct/blob/main/demos/mdlm.gif)
+
+### DiDi-Instruct (distilled from 169M MDLM):
+Distilled few-step model → up to **64× speedup** with matched/better quality.
+![DiDi-Instruct](https://github.com/haoyangzheng-ai/didi-instruct/blob/main/demos/didi-instruct.gif)
+
+---
+
+## 🏗️ Usage Guide
+
+### 1. Create and Activate the Conda Environment
+
+Before first use, create and activate the environment from the provided `environment.yml`:
+
+```bash
+conda env create -f environment.yml
+conda activate mask_model
 ```
 
------
+### ~~2. Train a Small Model~~
 
+~~Before distillation, train a baseline small model using one of the predefined scripts. For example, with the OpenWebText dataset:~~
 
-## 📋 Implemented Distillation Methods
+Please refer to [this script from DUO](https://github.com/s-sahoo/duo/blob/main/scripts/train_owt_mdlm.sh) or use the checkpoint at [Google Drive](https://drive.google.com/drive/folders/16LuuptK7Xfk-vzhQYZBZ0SA-B-BFluau) (mdlm.ckpt).
 
-### 1. Progressive Distillation (SDTT)
-- Implements multi-round progressive distillation in discrete diffusion models, following [Ye et al., 2025](https://arxiv.org/abs/2405.16919).
-- Uses masked DiT class for text-based tasks.
-- Supports extended context length and aggressive reduction in inference steps.
+```bash
+# source ./script/train_small_owt_mdlm.sh
+```
 
-### 2. DiMO (Consistency)
-- Implements token-level on-policy consistency distillation as described in [Zhu et al., 2025](https://arxiv.org/abs/2501.00000).
-- Uses auxiliary student and teacher models with pseudo-intermediate states for text-to-image tasks.
-- Utilizes a masked DiT class and long-context modeling.
+### ~~3. Distill the Model~~
 
-### 3. DUO (Diffusion Duality)
-- Reproduces the DUO framework for discrete consistency distillation and curriculum learning, described in [Sahoo et al., 2025](https://arxiv.org/abs/2506.10892).
-- Supports training from scratch based on USDM and uniform DiT class.
+We will release the distillation code in the future. 
 
----
+Please download the checkpoint and place the ckpt file under the folder: "./out/"
 
-## 🔬 Distillation Method Summary
+See [Google Drive](https://drive.google.com/drive/folders/1bQlwZoaowkGy3FXnrtb4YEleKIDHrQNE?usp=sharing) (didi-instruct.ckpt).
 
-| Title | Beyond Autoregression (SDTT) | DiMO | Diffusion Duality (DUO) |
-| :--- | :--- | :--- | :--- |
-| **Distill method** | Progressive  | On-Policy  | Consistency  |
-| **\# distill rounds** | 7 | 1 | 5 |
-| **Base Model** | MDLM | Meissonic | Trained from scratch based on USDM |
-| **DiT class** | MDM  | MDM  | USDM  |
-| **Tasks** | Text | Text to Image | Text |
-| **Context Length** | 1024 | 4096 | 1024 |
-| **inference steps** | 1024 → 16‑32 | 32 → 1 | 1024 → 8‑16 |
-| **Details** | 1/2 distill, multiple rounds | student generation from $x_{\text{init}}$ to $x_\theta$<br>forward from $x_\theta$ to $x_t$<br>backward from $x_t$ to $x_0$ via $p_\phi$ and $p_\psi$  | Curriculum learning + <br> Discrete Consistency Distillation  |
+```bash
+# source ./script/distill_openwebtext.sh
+```
+
+### 4. Evaluate the Distilled Model
+
+This step assesses the quality and efficiency of the distilled student by measuring perplexity and entropy against the teacher and baseline models.
+
+```bash
+source ./script/eval-didi-instruct.sh
+```
 
 ---
+## 📁 Repository Structure
 
-## 🏗️ How to Use
-
-
-
-1.  **Clone the repository:**
-
-    ```bash
-    git clone git@github.com:haoyangzheng-ai/discrete_diffusion.git
-    cd discrete_diffusion
-    ```
-
-2.  **Create and activate the Conda environment:**
-    The environment name specified in the file is `duo`.
-
-    ```bash
-    conda env create -f environment.yml
-    conda activate duo
-    ```
-
-3.  **Run the desired distillation method:**
-
-      - **SDTT:**
-        ```bash
-        source ./script/distill_sdtt_openwebtext.sh
-        ```
-      - **DiMO:**
-        ```bash
-        source ./script/distill_dimo_openwebtext.sh
-        ```
-      - **DUO:**
-        ```bash
-        source ./script/distill_duo_openwebtext.sh
-        ```
-
-4.  **Evaluate the distilled models:**
-
-      - **SDTT:**
-        ```bash
-        source ./script/eval_distill_sdtt_openwebtext.sh
-        ```
-      - **DiMO:**
-        ```bash
-        source ./script/eval_distill_dimo_openwebtext.sh
-        ```
-      - **DUO:**
-        ```bash
-        source ./script/eval_distill_duo_openwebtext.sh
-        ```
-
+```
+didi-instruct/
+├── configs/              # Configuration files directory, including experiment parameters and hyperparameter settings
+├── models/               # Model definitions and related implementation code
+├── scripts/              # Inference and zero-shot evaluation scripts
+├── out/                  # Save pretrained models here
+├── algo.py               # Algorithm implementations (DiDi-Instruct)
+├── dataloader.py         # Core data loading and preprocessing code
+├── dit.py                # Diffusion Transformer implementations
+├── main.py               # Main script for training and evaluation
+├── metrics.py            # Evaluation metrics code
+├── trainer_base.py       # Base trainer class
+├── utils.py              # Utility functions
+├── LICENSE.md            # License file
+├── README.md             # Project documentation and usage instructions
+└── environment.yml       # Dependency environment specification (conda requirements)
+```
 ---
 
 ## 📚 References
 
--   **DUO**: ["Diffusion Duality: Curriculum and Consistency for Discrete Diffusion LLMs"](https://arxiv.org/abs/2506.10892). ICLR 2025.
--   **SDTT**: ["Beyond Autoregression: Progressive Distillation for Discrete Diffusion Language Models"](https://arxiv.org/abs/2405.16919). ICLR 2025.
--   **DiMO**: ["DiMO: On-Policy Consistency Distillation for Discrete Diffusion"](https://arxiv.org/abs/2501.00000). ICCV 2025.
--   **MDLM**: ["Simple and Effective Masked Diffusion Language Models"](https://arxiv.org/abs/2406.07524). NeurIPS 2024.
--   ["Meissonic: Revitalizing Masked Generative Transformers for Efficient High-Resolution Text-to-Image Synthesis"](https://arxiv.org/abs/2410.08261). ICLR 2025.
--   ["Progressive Distillation for Fast Sampling of Diffusion Models"](https://arxiv.org/abs/2202.00512). ICLR 2022.
--   ["On-Policy Distillation of Language Models: Learning from Self-Generated Mistakes"](https://arxiv.org/abs/2306.13649). ICLR 2024.
--   ["Consistency Models"](https://arxiv.org/abs/2303.01469). ICML 2023.
+This repository is built upon [DUO](https://github.com/s-sahoo/duo): ["The Diffusion Duality. ICML 2025"](https://arxiv.org/abs/2506.10892).
+
+We also adopt ideas from [DiMO](https://github.com/yuanzhi-zhu/DiMO), [MDLM](https://github.com/kuleshov-group/mdlm), [SDTT](https://github.com/jdeschena/sdtt), and [nanoGPT](https://github.com/karpathy/nanoGPT).
+
 ---
 
-## ✨ Acknowledgements
+## 📖 Citation
 
-This repository builds on [DUO](https://github.com/s-sahoo/duo). The diffusion model implementations are heavily inspired by the following papers and their official codebases:
+If you find this repository useful, please cite the following work:
 
-  - **DUO**: [Diffusion Duality: Curriculum and Consistency for Discrete Diffusion LLMs](https://github.com/s-sahoo/duo) by Subham Sahoo.
-  - **SDTT**: [Beyond Autoregression: Progressive Distillation for Discrete Diffusion Language Models](https://github.com/jdeschena/sdtt) by Justin Deschenaux.
-  - **DiMO**: [DiMO: On-Policy Consistency Distillation for Discrete Diffusion](https://github.com/yuanzhi-zhu/DiMO) by Yuanzhi Zhu.
+```
+@article{zheng2025ultra,
+  title={{Ultra-Fast Language Generation via Discrete Diffusion Divergence Instruct}},
+  author={Zheng, Haoyang and Liu, Xinyang and Kong, Cindy Xiangrui and Jiang, Nan and Hu, Zheyuan and Luo, Weijian and Deng, Wei and Lin, Guang},
+  journal={arXiv preprint arXiv:2509.25035},
+  year={2025}
+}
+```
 
+---

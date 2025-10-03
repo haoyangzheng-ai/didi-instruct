@@ -1,5 +1,5 @@
-train: lambada
-valid: lambada
+train: wikitext103
+valid: wikitext103
 tokenizer_name_or_path: gpt2
 cache_dir: /scratch/gautschi/zheng528/data/
 wrap: True

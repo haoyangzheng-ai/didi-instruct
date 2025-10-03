@@ -105,7 +105,6 @@ def _generate_samples(diffusion_model, config, logger, tokenizer):
   stride_length = config.sampling.stride_length
   num_strides = config.sampling.num_strides
   all_samples = []
-  start_time = time.time()
   for _ in range(config.sampling.num_sample_batches):
     if config.sampling.semi_ar:
       _, intermediate_samples, _ = model.restore_model_and_semi_ar_sample(
@@ -121,8 +120,6 @@ def _generate_samples(diffusion_model, config, logger, tokenizer):
       model.metrics.record_generative_perplexity(
         text_samples, config.model.length, model.device)
       all_samples.extend(list(text_samples))
-  end_time = time.time()
-  elapsed_time = end_time - start_time
   generative_ppl = 0.
   entropy = 0.
   if not config.sampling.semi_ar:
@@ -220,7 +217,6 @@ def _train(diffusion_model, config, logger, tokenizer):
     logger=wandb_logger)
 
   trainer.fit(model, train_ds, valid_ds, ckpt_path=ckpt_path)
-  # trainer.fit(model, train_ds, valid_ds, ckpt_path=config.training.finetune_path)
 
 @hydra.main(version_base=None, config_path='configs',
             config_name='config')
@@ -235,24 +231,8 @@ def main(config):
     diffusion_model = algo.AR
   elif config.algo.name == 'mdlm':
     diffusion_model = algo.MDLM
-  elif config.algo.name == 'duo_base':
-    diffusion_model = algo.DUO_BASE
-  elif config.algo.name == 'd3pm':
-    diffusion_model = algo.D3PMAbsorb
-  elif config.algo.name == 'sedd':
-    diffusion_model = algo.SEDDAbsorb
-  elif config.algo.name == 'duo':
-    diffusion_model = algo.DUO
-  elif config.algo.name == 'distillation':
-    diffusion_model = algo.Distillation
-  elif config.algo.name == 'progress_distill':
-    diffusion_model = algo.ProgressiveDistillation
-  elif config.algo.name == 'policy_distill':
-    diffusion_model = algo.OnPolicyDistillation
   elif config.algo.name == 'didi_instruct':
     diffusion_model = algo.DiDiInstruct
-  elif config.algo.name == 'ot-finetune':
-    diffusion_model = algo.OptimalTransportFinetune
   else:
     raise ValueError(
       f'Invalid algorithm name: {config.algo.name}')

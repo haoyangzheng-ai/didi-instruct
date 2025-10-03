@@ -13,7 +13,7 @@ T: 0 # Continuous time
 # ---- Core Distillation Parameters ----
 student_num_steps: 2              # N: The number of inference steps for the student model.
 num_samples_per_prompt: 4         # G: Number of samples per prompt for GRPO reward normalization.
-tau_mode: 'beta22'                # Sampling distribution for the intermediate timestep tau.
+tau_mode: 'beta11'                # Sampling distribution for the intermediate timestep tau.
 remask_prob: 0.0
 
 # ---- Discriminator Parameters ----
@@ -28,39 +28,17 @@ discriminator_optim:
   eps: 1e-8
 
 # ---- Student Regularization & Stability ----
-gradient_clip_val: 1.0            # Gradient clipping value for both optimizers.
-kl_beta: 0.05                     # NOT USED when student_num_steps = 2. See kl_hi_coef/kl_lo_coef below.
-entropy_beta: 0.0005              # Weight for entropy regularization on student logits to encourage diversity.
-regularization_type: 'Jeffrey'    # Type of KL divergence: 'Jeffrey', 'Forward', 'Backward'.
-jeffrey_beta: 0.5                 # Beta for Jeffrey divergence (0=FKL, 1=RKL). Only used if regularization_type is 'Jeffrey'.
-student_update_every: 1           # Update student every N discriminator steps.
 
 # ---- Reward Shaping & Advantage Calculation ----
-reward_clip_val: 8.0              # Clip raw log-odds from discriminator to stabilize reward signal.
-advantage_clip_val: 3.0           # Clip the final normalized advantage to prevent extreme gradients.
-log_odds_eps: 1e-6                # Epsilon for stable log-odds calculation.
 
 # ---- Student Generation & EMA ----
-student_gen_temp: 1.0             # Temperature for student's N-step generation sampling.
-student_top_k: 0                  # Top-k filtering for student's sampling (0 = disabled).
-student_top_p: 0.0                # Top-p (nucleus) filtering for student's sampling (0.0 = disabled).
-ema_beta: 0.999                   # Decay rate for the student EMA model (used for evaluation).
 
-# ---- Two-Step Generation Parameters (Active because student_num_steps = 2) ----
-kl_hi_coef: 0.01                  # KL regularization weight for the first step (T -> tau).
-kl_lo_coef: 0.01                  # KL regularization weight for the second step (tau -> 0).
-omega_from_alpha: true            # Whether to use the alpha-based time weight for the policy gradient loss.
-t0_eps: 0.001                     # Lower bound time for the second step (tau -> t0_eps).
-logprob_mode: 'prev_is_mask'      # Log probability calculation mode for the policy gradient. 'prev_is_mask' is unbiased.
-weight_mode: 'simplified'         # Weight mode omega(t). constant, complete, simplified
-coupled_traj: true
-unbiased: true
-importance_weight: false
+# ---- Generation Parameters ----
 
 # --- Guided Sampling Hyperparameters ---
 num_candidates: 4
-guidance_scale_start: 0.2
-guidance_scale_end: 1.0
+guidance_scale_start: 30.0
+guidance_scale_end: 40.0
 rerank_steps_ratio: 0.5
 
 # ---- Logging & Saving ----

@@ -1,8 +1,10 @@
-train: lambada
-valid: lambada
+train: openwebtext-train
+valid: openwebtext-valid
 tokenizer_name_or_path: gpt2
 cache_dir: /scratch/gautschi/zheng528/data/
 wrap: True
 streaming: False
 insert_train_eos: True
 insert_valid_eos: True
+train_ratio: 1.0
+valid_ratio: 1.0

@@ -1,0 +1,25 @@
+# Ignore everything
+*
+
+# Allow these directories (directory itself + all nested files)
+!configs/
+!configs/**
+!models/
+!models/**
+!scripts/
+!scripts/**
+
+# Allow these files
+!algo.py
+!dataloader.py
+!dit.py
+!main.py
+!metrics.py
+!trainer_base.py
+!utils.py
+!LICENSE.md
+!README.md
+!environment.yml
+
+# Always allow .gitignore itself
+!.gitignore

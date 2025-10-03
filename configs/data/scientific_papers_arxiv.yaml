@@ -1,5 +1,5 @@
-train: lambada
-valid: lambada
+train: scientific_papers_arxiv
+valid: scientific_papers_arxiv
 tokenizer_name_or_path: gpt2
 cache_dir: /scratch/gautschi/zheng528/data/
 wrap: True
