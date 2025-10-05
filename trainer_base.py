@@ -147,7 +147,10 @@ class TrainerBase(L.LightningModule):
 
   def on_load_checkpoint(self, checkpoint):
     if self.ema:
-      self.ema.load_state_dict(checkpoint['ema'])
+      try:
+          self.ema.load_state_dict(checkpoint['ema'])
+      except KeyError:
+          print("EMA state not found in checkpoint.")
     # Copied from:
     # https://github.com/Dao-AILab/flash-attention/blob/main/training/src/datamodules/language_modeling_hf.py#L41
     try:

@@ -2,6 +2,7 @@
 
 [![arXiv](https://img.shields.io/badge/arXiv-2509.25035-b31b1b?logo=arxiv&logoColor=white)](https://arxiv.org/abs/2509.25035)
 [![Checkpoints](https://img.shields.io/badge/Model%20Checkpoints-Drive-blue?logo=google-drive&logoColor=white)](https://drive.google.com/drive/folders/1bQlwZoaowkGy3FXnrtb4YEleKIDHrQNE?usp=sharing)
+[![Hugging Face](https://img.shields.io/badge/HuggingFace-didi--instruct-orange?logo=huggingface&logoColor=white)](https://huggingface.co/haoyangzheng/didi-instruct-small)
 [![Python](https://img.shields.io/badge/Python-3.12.11-yellow)](https://github.com/haoyangzheng-ai/didi-instruct/blob/main/environment.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE.md)
 
@@ -12,6 +13,7 @@ By [Haoyang Zheng](https://scholar.google.com/citations?hl=en&user=cq_f7MUAAAAJ&
 
 ## 🔄 Updates
 
+* **2025-10-05**: We released the checkpoint on [Hugging Face](https://huggingface.co/haoyangzheng/didi-instruct-small).
 * **2025-10-03**: We updated the [evaluation code](https://github.com/haoyangzheng-ai/didi-instruct/blob/main/scripts/eval-didi-instruct.sh) and released [the model checkpoint](https://drive.google.com/drive/folders/1bQlwZoaowkGy3FXnrtb4YEleKIDHrQNE?usp=sharing).
 * **2025-09-29**: We uploaded our work to [arXiv](https://arxiv.org/abs/2509.25035).
 
@@ -61,21 +63,23 @@ conda activate mask_model
 
 Please refer to [this script from DUO](https://github.com/s-sahoo/duo/blob/main/scripts/train_owt_mdlm.sh) or use the checkpoint at [Google Drive](https://drive.google.com/drive/folders/16LuuptK7Xfk-vzhQYZBZ0SA-B-BFluau) (mdlm.ckpt).
 
-```bash
-# source ./script/train_small_owt_mdlm.sh
-```
-
 ### ~~3. Distill the Model~~
 
 We will release the distillation code in the future. 
 
-Please download the checkpoint and place the ckpt file under the folder: "./out/"
+We here provide **two options** to obtain the model checkpoint:
 
-See [Google Drive](https://drive.google.com/drive/folders/1bQlwZoaowkGy3FXnrtb4YEleKIDHrQNE?usp=sharing) (didi-instruct.ckpt).
+- **Option 1 (from Google Drive):**  
+  - Download the checkpoint and place the `.ckpt` file under the folder `./out/`.  
+  - See [Google Drive](https://drive.google.com/drive/folders/1bQlwZoaowkGy3FXnrtb4YEleKIDHrQNE?usp=sharing) (`didi-instruct.ckpt`).  
 
-```bash
-# source ./script/distill_openwebtext.sh
-```
+- **Option 2 (from Hugging Face):**  
+  - We also release the model checkpoint on Hugging Face.  
+  - You can directly run the following command to download the model and convert it into `.ckpt` format:  
+
+    ```bash
+    python ./models/hf_to_ckpt.py --hf_repo_id "haoyangzheng/didi-instruct-small" --output_dir "/your_code_path/didi-instruct/out/didi-instruct.ckpt"
+    ```
 
 ### 4. Evaluate the Distilled Model
 
