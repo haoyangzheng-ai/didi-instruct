@@ -42,7 +42,7 @@ guidance_scale_end: 40.0
 rerank_steps_ratio: 0.5
 
 # ---- Logging & Saving ----
-output_dir: "/scratch/gautschi/zheng528/duo/outputs"
+output_dir: "/your_output_dir/"
 print_every: 10
 save_after_n_steps: 200
 lr_scheduler:

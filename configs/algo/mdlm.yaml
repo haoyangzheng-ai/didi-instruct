@@ -1,8 +1,8 @@
 name: mdlm
-backbone: dit  # dit / dimamba / hf_dit
+backbone: dit
 parameterization: subs
 time_conditioning: False
-T: 0  # 0 (continuous time) / 1000 
+T: 0
 subs_masking: False
 causal_attention: False
 ignore_bos: False

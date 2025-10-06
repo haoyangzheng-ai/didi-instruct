@@ -1,10 +1,11 @@
 # Ultra-Fast Language Generation via <br>Discrete Diffusion Divergence Instruct (DiDi-Instruct)
 
+[![Blog](https://img.shields.io/badge/Blog-0366d6?logo=rss&logoColor=white)](https://haoyangzheng.github.io/research/didi-instruct/)
+[![Google Drive](https://img.shields.io/badge/GoogleDrive-34a853?logo=google-drive&logoColor=white)](https://drive.google.com/drive/folders/1bQlwZoaowkGy3FXnrtb4YEleKIDHrQNE?usp=sharing)
+[![Hugging Face](https://img.shields.io/badge/Hugging%20Face-ff6f00?logo=huggingface&logoColor=white)](https://huggingface.co/haoyangzheng/didi-instruct-small)
 [![arXiv](https://img.shields.io/badge/arXiv-2509.25035-b31b1b?logo=arxiv&logoColor=white)](https://arxiv.org/abs/2509.25035)
-[![Checkpoints](https://img.shields.io/badge/Model%20Checkpoints-Drive-blue?logo=google-drive&logoColor=white)](https://drive.google.com/drive/folders/1bQlwZoaowkGy3FXnrtb4YEleKIDHrQNE?usp=sharing)
-[![Hugging Face](https://img.shields.io/badge/HuggingFace-didi--instruct-orange?logo=huggingface&logoColor=white)](https://huggingface.co/haoyangzheng/didi-instruct-small)
-[![Python](https://img.shields.io/badge/Python-3.12.11-yellow)](https://github.com/haoyangzheng-ai/didi-instruct/blob/main/environment.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE.md)
+[![Python](https://img.shields.io/badge/Python-3.12.11-yellow?logo=python&logoColor=white)](https://github.com/haoyangzheng-ai/didi-instruct/blob/main/environment.yml) 
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?logo=opensourceinitiative&logoColor=white)](./LICENSE.md)
 
 By [Haoyang Zheng](https://scholar.google.com/citations?hl=en&user=cq_f7MUAAAAJ&view_op=list_works&sortby=pubdate), [Xinyang Liu](https://xinyangatk.github.io/), [Cindy Xiangrui Kong](https://xiangruikong.com/), [Nan Jiang](https://jiangnanhugo.github.io/), [Zheyuan Hu](https://scholar.google.com/citations?user=On2YFigAAAAJ&hl=zh-CN),
 [Weijian Luo](https://pkulwj1994.github.io/), [Wei Deng](https://www.weideng.org/), and [Guang Lin](https://www.math.purdue.edu/~lin491/)
@@ -13,13 +14,13 @@ By [Haoyang Zheng](https://scholar.google.com/citations?hl=en&user=cq_f7MUAAAAJ&
 
 ## 🔄 Updates
 
+* **2025-10-06**: We update the [Project Page](https://haoyangzheng.github.io/research/didi-instruct/).
 * **2025-10-05**: We released the checkpoint on [Hugging Face](https://huggingface.co/haoyangzheng/didi-instruct-small).
 * **2025-10-03**: We updated the [evaluation code](https://github.com/haoyangzheng-ai/didi-instruct/blob/main/scripts/eval-didi-instruct.sh) and released [the model checkpoint](https://drive.google.com/drive/folders/1bQlwZoaowkGy3FXnrtb4YEleKIDHrQNE?usp=sharing).
 * **2025-09-29**: We uploaded our work to [arXiv](https://arxiv.org/abs/2509.25035).
 
 ### Planned Releases
 
-* Project page.
 * Training code for reproduction and further research.
 
 ---
