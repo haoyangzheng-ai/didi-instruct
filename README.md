@@ -1,6 +1,7 @@
 # Ultra-Fast Language Generation via <br>Discrete Diffusion Divergence Instruct (DiDi-Instruct)
 
 [![Blog](https://img.shields.io/badge/Blog-0366d6?logo=gitbook&logoColor=white)](https://haoyangzheng.github.io/research/didi-instruct/)
+[![YouTube](https://img.shields.io/badge/YouTube-FF0000?logo=youtube&logoColor=white)](https://youtu.be/JDfKRiqXcYE)
 [![Google Drive](https://img.shields.io/badge/GoogleDrive-34a853?logo=google-drive&logoColor=white)](https://drive.google.com/drive/folders/1bQlwZoaowkGy3FXnrtb4YEleKIDHrQNE?usp=sharing)
 [![Hugging Face](https://img.shields.io/badge/Hugging%20Face-ff6f00?logo=huggingface&logoColor=white)](https://huggingface.co/haoyangzheng/didi-instruct-small)
 [![arXiv](https://img.shields.io/badge/arXiv-2509.25035-b31b1b?logo=arxiv&logoColor=white)](https://arxiv.org/abs/2509.25035)
@@ -14,6 +15,7 @@ By [Haoyang Zheng](https://scholar.google.com/citations?hl=en&user=cq_f7MUAAAAJ&
 
 ## 🔄 Updates
 
+* **2026-01-16**: Invited talk on DiDi-Instruct is now available on [YouTube](https://youtu.be/JDfKRiqXcYE).
 * **2025-10-06**: We update the [Blog](https://haoyangzheng.github.io/research/didi-instruct/).
 * **2025-10-05**: We released the checkpoint on [Hugging Face](https://huggingface.co/haoyangzheng/didi-instruct-small).
 * **2025-10-03**: We updated the [evaluation code](https://github.com/haoyangzheng-ai/didi-instruct/blob/main/scripts/eval-didi-instruct.sh) and released [the model checkpoint](https://drive.google.com/drive/folders/1bQlwZoaowkGy3FXnrtb4YEleKIDHrQNE?usp=sharing).
