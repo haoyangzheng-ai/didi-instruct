@@ -7,23 +7,23 @@ defaults:
   - /noise: log-linear
   - /lr_scheduler: constant_warmup
   - /prior: none
-  - /algo: duo_base
+  - /algo: didi_instruct
 
 mode: train  # train / ppl_eval / sample_eval
 
 seed: 1
 
 loader:
-  global_batch_size: 128
+  global_batch_size: 2
   eval_global_batch_size: ${.global_batch_size}
   # Note: batch_size and eval_batch_size are **per machine**
-  batch_size: ${div_up:${.global_batch_size}, ${eval:${trainer.devices} * ${trainer.num_nodes}}}
-  eval_batch_size: ${div_up:${.eval_global_batch_size}, ${eval:${trainer.devices} * ${trainer.num_nodes}}}
+  batch_size: 1
+  eval_batch_size: 4
   num_workers: ${eval:"len(__import__('os').sched_getaffinity(0))"}
   pin_memory: True
 
 sampling:
-  predictor: ancestral  # ancestral_cache (only for MDLM), ancestral, analytic
+  predictor: ancestral_cache  # ancestral_cache (only for MDLM), ancestral, analytic
   steps: 1000
   noise_removal: ancestral  # 'ancestral', 'greedy', 'none'
   use_float64: True
@@ -41,7 +41,7 @@ training:
   sampling_eps: 1e-3
   change_of_variables: False
   loss_precision: 'bf16'  # bf16, float32, float64
-  finetune_path: ''
+  finetune_path: 'input_your_model_checkpoint_path'
 
 eval:
   checkpoint_path: ''  # Used to evaluate a checkpoint after training.
@@ -54,8 +54,8 @@ eval:
   generated_samples_path: ${cwd:}/samples.json
 
 optim:
-  weight_decay: 0
-  lr: 3e-4
+  weight_decay: 0.01
+  lr: 1e-6
   beta1: 0.9
   beta2: 0.999
   eps: 1e-8
@@ -65,15 +65,15 @@ trainer:
   accelerator: cuda
   num_nodes: 1
   devices: ${device_count:}
-  accumulate_grad_batches: ${div_up:${loader.global_batch_size}, ${eval:${trainer.devices} * ${loader.batch_size} * ${trainer.num_nodes}}}
-  gradient_clip_val: 1.0
+  accumulate_grad_batches: 1
+  gradient_clip_val: 0.0
   precision: 'bf16'
-  num_sanity_val_steps: 2
-  max_steps: 1_000_000
+  num_sanity_val_steps: 0
+  max_steps: 10000
   log_every_n_steps: 100
   limit_train_batches: 1.0   # train on full dataset, can be used to toggle quick run
-  limit_val_batches: 1.0     # validate on full dataset, can be used to toggle quick run
-  val_check_interval: 5000
+  limit_val_batches: 8     # validate on subset for faster iteration
+  val_check_interval: 1000
 
 wandb:
   project: discrete-diffusion
@@ -81,6 +81,7 @@ wandb:
   group: null
   job_type: null
   name: null
+  offline: true
   id: ${.name}_${seed}
   tags:
     - ${noise.type}
@@ -98,5 +99,5 @@ checkpointing:
   # Use custom `save_dir` if, e.g., saving to S3 bucket, otherwise leave this parameter as is
   save_dir: ${cwd:}
   # Note: `checkpoints` path should correspond to `checkpoint_every_n_steps.dirpath`
-  resume_from_ckpt: true
+  resume_from_ckpt: false
   resume_ckpt_path: ${.save_dir}/checkpoints/last.ckpt
