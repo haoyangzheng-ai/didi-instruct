@@ -3,7 +3,7 @@
 [![Blog](https://img.shields.io/badge/Blog-0366d6?logo=gitbook&logoColor=white)](https://haoyangzheng.github.io/research/didi-instruct/)
 [![YouTube](https://img.shields.io/badge/YouTube-FF0000?logo=youtube&logoColor=white)](https://youtu.be/JDfKRiqXcYE)
 [![Google Drive](https://img.shields.io/badge/GoogleDrive-34a853?logo=google-drive&logoColor=white)](https://drive.google.com/drive/folders/1bQlwZoaowkGy3FXnrtb4YEleKIDHrQNE?usp=sharing)
-[![Hugging Face](https://img.shields.io/badge/Hugging%20Face-ff6f00?logo=huggingface&logoColor=white)](https://huggingface.co/haoyangzheng/didi-instruct-small)◊
+[![Hugging Face](https://img.shields.io/badge/Hugging%20Face-ff6f00?logo=huggingface&logoColor=white)](https://huggingface.co/haoyangzheng/didi-instruct-small)
 [![arXiv](https://img.shields.io/badge/arXiv-2509.25035-b31b1b?logo=arxiv&logoColor=white)](https://arxiv.org/abs/2509.25035)
 [![Python](https://img.shields.io/badge/Python-3.12.11-yellow?logo=python&logoColor=white)](https://github.com/haoyangzheng-ai/didi-instruct/blob/main/environment.yml) 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?logo=opensourcehardware&logoColor=white)](./LICENSE.md)
