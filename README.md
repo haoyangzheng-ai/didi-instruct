@@ -1,4 +1,4 @@
-# Ultra-Fast Language Generation via <br>Discrete Diffusion Divergence Instruct (DiDi-Instruct)
+# [[ICLR 2026] Ultra-Fast Language Generation via <br>Discrete Diffusion Divergence Instruct](https://openreview.net/forum?id=mtdyZsa47V) (DiDi-Instruct)
 
 [![Blog](https://img.shields.io/badge/Blog-0366d6?logo=gitbook&logoColor=white)](https://haoyangzheng.github.io/research/didi-instruct/)
 [![YouTube](https://img.shields.io/badge/YouTube-FF0000?logo=youtube&logoColor=white)](https://youtu.be/JDfKRiqXcYE)
@@ -16,7 +16,7 @@ By [Haoyang Zheng](https://scholar.google.com/citations?hl=en&user=cq_f7MUAAAAJ&
 ## 🔄 Updates
 
 * **2026-02-05**: We released the training code.
-* **2026-01-25**: DiDi-Instruct was accepted by ICLR.
+* **2026-01-25**: DiDi-Instruct was accepted by [ICLR 2026](https://openreview.net/forum?id=mtdyZsa47V).
 * **2026-01-16**: Invited talk on DiDi-Instruct is now available on [YouTube](https://youtu.be/JDfKRiqXcYE).
 * **2025-10-06**: We update the [Blog](https://haoyangzheng.github.io/research/didi-instruct/).
 * **2025-10-05**: We released the checkpoint on [Hugging Face](https://huggingface.co/haoyangzheng/didi-instruct-small).
@@ -27,7 +27,7 @@ By [Haoyang Zheng](https://scholar.google.com/citations?hl=en&user=cq_f7MUAAAAJ&
 
 ## Abstract
 
-Fast and high-quality language generation is the holy grail that people pursue in the age of AI. In this work, we introduce **Di**screte **Di**ffusion Divergence **Instruct** (**DiDi-Instruct**), a training-based method that initializes from a pre-trained (masked) discrete diffusion language model (dLLM) and distills a few-step student for fast generation. The resulting DiDi-Instruct model achieves comparable or superior performance to its dLLM teacher and the GPT-2 baseline while enabling up to **64×** acceleration. The theoretical foundation of DiDi-Instruct is a novel framework based on integral KL-divergence minimization, which yields a practical training algorithm. We further introduce grouped reward normalization, intermediate-state matching, and the reward-guided ancestral sampler that significantly improve training stability, model coverage, and inference quality. On OpenWebText, DiDi-Instruct achieves perplexity from 62.2 (8 NFEs) to 18.4 (128 NFEs), which outperforms prior accelerated dLLMs and GPT-2 baseline. These gains come with a negligible entropy loss (around 1%) and reduce additional training wall-clock time by more than **20×** compared to competing dLLM distillation methods. We further validate the robustness and effectiveness of DiDi-Instruct through extensive ablation studies, model scaling, downstream tasks, and the generation of discrete protein sequences. In conclusion, DiDi-Instruct is an efficient yet effective distillation method, enabling language generation in the blink of an eye.
+Fast and high-quality language generation is the holy grail that people pursue in the age of AI. In this work, we introduce **Di**screte **Di**ffusion Divergence **Instruct** (**DiDi-Instruct**), a training-based method that initializes from a pre-trained diffusion large language model (dLLM) and distills a few-step student for fast generation. The model distilled with DiDi-Instruct matches or surpasses its dLLM teacher and the GPT-2 baseline while providing up to **64× acceleration**. The theoretical foundation of DiDi-Instruct is a novel framework based on integral KL-divergence minimization, which leads to a practical training algorithm. We further introduce *grouped reward normalization, intermediate-state matching, and the reward-guided ancestral sampler* to improve *training stability, model coverage, and inference quality*. On the OpenWebText benchmark, DiDi-Instruct achieves perplexity ranging from 62.2 (8 NFEs) to 18.4 (128 NFEs), outperforming prior accelerated dLLMs and the GPT-2 baseline. These gains incur a negligible entropy loss (around $1$%) and reduce additional training wall-clock time by **more than 20×** compared to competing dLLM distillation methods. We further validate the robustness and effectiveness of DiDi-Instruct through extensive ablation studies, model scaling, downstream task evaluations, and unconditional protein sequence generation. In conclusion, DiDi-Instruct enables efficient and effective distillation for language generation in the blink of an eye.
 
 ---
 
